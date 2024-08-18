@@ -6,22 +6,18 @@ from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_i
 import urllib.request
 
 def ensure_directory_exists(directory):
-    """Ensure the specified directory exists, creating it if necessary."""
     Path(directory).mkdir(parents=True, exist_ok=True)
     print(f"Directory ensured: {directory}")
 
 def download_file(url, destination):
-    """Download a file from a URL to a destination."""
     print(f"Downloading from {url}...")
     urllib.request.urlretrieve(url, destination)
     print("Download complete.")
 
 def verify_file_size(file_path, expected_size):
-    """Verify if the file at the given path has the expected size."""
     return Path(file_path).is_file() and Path(file_path).stat().st_size == expected_size
 
 def load_mobilenetv2_model(weights_path):
-    """Load the MobileNetV2 model with specified weights."""
     try:
         model = MobileNetV2(weights=weights_path)
         print("MobileNetV2 model loaded successfully.")
@@ -31,14 +27,12 @@ def load_mobilenetv2_model(weights_path):
         exit()
 
 def preprocess_frame(frame):
-    """Preprocess a frame for prediction."""
     frame = cv2.resize(frame, (224, 224))
     frame = preprocess_input(frame)
     frame = np.expand_dims(frame, axis=0)
     return frame
 
 def process_video_frames(model):
-    """Process video frames for object detection."""
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("Error: Could not open video capture.")
